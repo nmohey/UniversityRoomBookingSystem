@@ -2,6 +2,8 @@ package com.sprints.UniversityRoomBookingSystem.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "room_feature")
 public class RoomFeature {
@@ -12,11 +14,15 @@ public class RoomFeature {
 
     private String feature_name;
 
+    @ManyToMany(mappedBy = "features")
+    private List<Room> rooms;
+
     public RoomFeature() {
     }
 
-    public RoomFeature(String feature_name) {
+    public RoomFeature(String feature_name, List<Room> rooms) {
         this.feature_name = feature_name;
+        this.rooms = rooms;
     }
 
     public Long getId() {
@@ -33,5 +39,13 @@ public class RoomFeature {
 
     public void setFeature_name(String feature_name) {
         this.feature_name = feature_name;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 }

@@ -23,6 +23,9 @@ public class Room {
     @Max(value = 100, message = "Capacity must be at most 100")
     private String capacity;
 
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings;
+
     @ManyToOne
     @JoinColumn(name = "building_id")
     private Building building;
@@ -38,9 +41,10 @@ public class Room {
     public Room() {
     }
 
-    public Room(String room_no, String capacity, Building building, List<RoomFeature> features) {
+    public Room(String room_no, String capacity, List<Booking> bookings, Building building, List<RoomFeature> features) {
         this.room_no = room_no;
         this.capacity = capacity;
+        this.bookings = bookings;
         this.building = building;
         this.features = features;
     }
@@ -83,5 +87,13 @@ public class Room {
 
     public void setFeatures(List<RoomFeature> features) {
         this.features = features;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

@@ -46,10 +46,13 @@ public class User {
     @Column(name = "role")
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings;
+
     public User() {
     }
 
-    public User(String name, String email, String password, Role role, LocalDateTime createdAt, Department department, List<Role> roles) {
+    public User(String name, String email, String password, Role role, LocalDateTime createdAt, Department department, List<Role> roles, List<Booking> bookings) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -57,6 +60,7 @@ public class User {
         this.createdAt = createdAt;
         this.department = department;
         this.roles = roles;
+        this.bookings = bookings;
     }
 
     public Long getId() {
@@ -121,5 +125,13 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }
