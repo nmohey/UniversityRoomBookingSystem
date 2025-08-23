@@ -6,6 +6,7 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,12 +38,20 @@ public class Booking {
     private User user;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    private List<BookingHistory> history;
+    private List<BookingHistory> history = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_holidays",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "holiday_id")
+    )
+    private List<Holiday> holidays = new ArrayList<>();
 
     public Booking() {
     }
 
-    public Booking(String purpose, LocalDateTime start_date, LocalDateTime end_date, BookingStatus status, Room room, User user, List<BookingHistory> history) {
+    public Booking(String purpose, LocalDateTime start_date, LocalDateTime end_date, BookingStatus status, Room room, User user, List<BookingHistory> history, List<Holiday> holidays) {
         this.purpose = purpose;
         this.start_date = start_date;
         this.end_date = end_date;
@@ -50,6 +59,7 @@ public class Booking {
         this.room = room;
         this.user = user;
         this.history = history;
+        this.holidays = holidays;
     }
 
     public Long getId() {
@@ -114,5 +124,13 @@ public class Booking {
 
     public void setHistory(List<BookingHistory> history) {
         this.history = history;
+    }
+
+    public List<Holiday> getHolidays() {
+        return holidays;
+    }
+
+    public void setHolidays(List<Holiday> holidays) {
+        this.holidays = holidays;
     }
 }

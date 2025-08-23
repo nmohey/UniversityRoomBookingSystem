@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,7 @@ public class Room {
     private String capacity;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Booking> bookings;
+    private List<Booking> bookings = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "building_id")
@@ -36,7 +37,7 @@ public class Room {
             joinColumns = @JoinColumn(name="room_id"),
             inverseJoinColumns = @JoinColumn(name="feature_id")
     )
-    private List<RoomFeature> features;
+    private List<RoomFeature> features = new ArrayList<>();
 
     public Room() {
     }

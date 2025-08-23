@@ -3,6 +3,7 @@ package com.sprints.UniversityRoomBookingSystem.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Building {
     private int building_no;
 
     @OneToMany(mappedBy = "building")
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
 
     public Building() {
     }

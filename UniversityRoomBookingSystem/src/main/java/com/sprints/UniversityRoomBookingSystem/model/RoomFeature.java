@@ -2,6 +2,7 @@ package com.sprints.UniversityRoomBookingSystem.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class RoomFeature {
     private String feature_name;
 
     @ManyToMany(mappedBy = "features")
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
 
     public RoomFeature() {
     }

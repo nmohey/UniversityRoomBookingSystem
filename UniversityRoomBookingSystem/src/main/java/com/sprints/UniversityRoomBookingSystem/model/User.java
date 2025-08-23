@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,10 +45,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id")
     )
     @Column(name = "role")
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Booking> bookings;
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    private List<Booking> bookings = new ArrayList<>();
 
     public User() {
     }
