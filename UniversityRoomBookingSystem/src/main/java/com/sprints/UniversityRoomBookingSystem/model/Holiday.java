@@ -21,10 +21,10 @@ public class Holiday {
     private String description;
 
     @FutureOrPresent
-    private LocalDateTime start_date;
+    private LocalDateTime startDate;
 
     @Future
-    private LocalDateTime end_date;
+    private LocalDateTime endDate;
 
     @ManyToMany(mappedBy = "holidays")
     private List<User> users = new ArrayList<>();
@@ -35,8 +35,8 @@ public class Holiday {
 
     public Holiday(String description, LocalDateTime start_date, LocalDateTime end_date, List<User> users) {
         this.description = description;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.startDate = start_date;
+        this.endDate = end_date;
         this.users = users;
     }
 
@@ -56,20 +56,20 @@ public class Holiday {
         this.description = description;
     }
 
-    public LocalDateTime getStart_date() {
-        return start_date;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(LocalDateTime start_date) {
-        this.start_date = start_date;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 
-    public LocalDateTime getEnd_date() {
-        return end_date;
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(LocalDateTime end_date) {
-        this.end_date = end_date;
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public List<User> getUsers() {

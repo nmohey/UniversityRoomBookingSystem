@@ -22,7 +22,7 @@ public class Room {
     @NotBlank(message = "Room Capacity is required")
     @Min(value = 1, message = "Capacity must be at least 1")
     @Max(value = 100, message = "Capacity must be at most 100")
-    private String capacity;
+    private int capacity;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
@@ -42,7 +42,7 @@ public class Room {
     public Room() {
     }
 
-    public Room(String room_no, String capacity, List<Booking> bookings, Building building, List<RoomFeature> features) {
+    public Room(String room_no, int capacity, List<Booking> bookings, Building building, List<RoomFeature> features) {
         this.room_no = room_no;
         this.capacity = capacity;
         this.bookings = bookings;
@@ -66,11 +66,11 @@ public class Room {
         this.room_no = room_no;
     }
 
-    public String getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 

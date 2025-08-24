@@ -13,7 +13,8 @@ public class RoomFeature {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String feature_name;
+    @Column(name = "feature_name")
+    private String feature;
 
     @ManyToMany(mappedBy = "features")
     private List<Room> rooms = new ArrayList<>();
@@ -22,7 +23,7 @@ public class RoomFeature {
     }
 
     public RoomFeature(String feature_name, List<Room> rooms) {
-        this.feature_name = feature_name;
+        this.feature = feature_name;
         this.rooms = rooms;
     }
 
@@ -34,12 +35,12 @@ public class RoomFeature {
         this.id = id;
     }
 
-    public String getFeature_name() {
-        return feature_name;
+    public String getFeature() {
+        return feature;
     }
 
-    public void setFeature_name(String feature_name) {
-        this.feature_name = feature_name;
+    public void setFeature(String feature) {
+        this.feature = feature;
     }
 
     public List<Room> getRooms() {

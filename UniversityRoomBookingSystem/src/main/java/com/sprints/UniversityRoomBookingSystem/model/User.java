@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -27,10 +27,6 @@ public class User {
     @NotBlank(message = "Password is required")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -47,21 +43,28 @@ public class User {
     @Column(name = "role")
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_holiday",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "holiday_id")
+    )
+    private List<Holiday> holidays = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String name, String email, String password, Role role, LocalDateTime createdAt, Department department, List<Role> roles, List<Booking> bookings) {
+    public User(String name, String email, String password, Department department, List<Role> roles, List<Booking> bookings, List<Holiday> holidays) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
-        this.createdAt = createdAt;
         this.department = department;
         this.roles = roles;
         this.bookings = bookings;
+        this.holidays = holidays;
     }
 
     public Long getId() {
@@ -96,14 +99,6 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -134,5 +129,13 @@ public class User {
 
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
+    }
+
+    public List<Holiday> getHolidays() {
+        return holidays;
+    }
+
+    public void setHolidays(List<Holiday> holidays) {
+        this.holidays = holidays;
     }
 }
