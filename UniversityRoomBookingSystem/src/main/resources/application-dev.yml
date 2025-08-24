@@ -4,9 +4,9 @@ spring:
       on-profile: dev
 
   datasource:
-    url: jdbc:mysql://localhost:3306/room_booking_dev
-    username: root
-    password: Nada-1417   # <-- CHANGE if your local MySQL root password is different
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}   # <-- CHANGE if your local MySQL root password is different
 
   jpa:
     hibernate:
