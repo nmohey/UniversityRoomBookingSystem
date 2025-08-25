@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}   # <-- CHANGE if your local MySQL root password is different
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
