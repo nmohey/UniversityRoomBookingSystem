@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+logging:
+  level:
+    root: WARN
+    com.sprints.UniversityRoomBookingSystem: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/room_booking
+    username: root
+    password: 12345   # <-- CHANGE if your local MySQL root password is different
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

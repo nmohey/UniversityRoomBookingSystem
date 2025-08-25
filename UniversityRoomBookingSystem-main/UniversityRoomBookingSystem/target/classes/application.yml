@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: university-room-booking-system
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  profiles:
+    active: dev
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+
+jwt:
+  secret: "2j93jfs8FJSD83jsdfSDF9283hfsdh3F9jsfD9sdf9SD"
+  expiration: 3600000   # 1 hour in ms
