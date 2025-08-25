@@ -2,7 +2,9 @@ package com.sprints.UniversityRoomBookingSystem.service.bookinghistory;
 
 import com.sprints.UniversityRoomBookingSystem.dto.BookingHistoryDto;
 import com.sprints.UniversityRoomBookingSystem.model.BookingHistory;
+import com.sprints.UniversityRoomBookingSystem.model.User;
 import com.sprints.UniversityRoomBookingSystem.repository.BookingHistoryRepository;
+import com.sprints.UniversityRoomBookingSystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +16,20 @@ import java.util.stream.Collectors;
 public class BookingHistoryServiceImp implements BookingHistoryService {
 
     private final BookingHistoryRepository bookingHistoryRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public BookingHistoryServiceImp(BookingHistoryRepository bookingHistoryRepository) {
+    public BookingHistoryServiceImp(BookingHistoryRepository bookingHistoryRepository,
+                                    UserRepository userRepository) {
         this.bookingHistoryRepository = bookingHistoryRepository;
+        this.userRepository = userRepository;
     }
 
     private BookingHistoryDto mapToDto(BookingHistory bookingHistory) {
         return new BookingHistoryDto(
                 bookingHistory.getTimestamp(),
                 bookingHistory.getStatus(),
-                bookingHistory.getPerformedBy(),
+                bookingHistory.getChangedBy() != null ? bookingHistory.getChangedBy().getName() : null,
                 bookingHistory.getBooking()
         );
     }
@@ -33,8 +38,14 @@ public class BookingHistoryServiceImp implements BookingHistoryService {
         BookingHistory bookingHistory = new BookingHistory();
         bookingHistory.setTimestamp(bookingHistoryDto.getTimestamp());
         bookingHistory.setStatus(bookingHistoryDto.getStatus());
-        bookingHistory.setPerformedBy(bookingHistoryDto.getPerformedBy());
         bookingHistory.setBooking(bookingHistoryDto.getBooking());
+
+        if (bookingHistoryDto.getChangedByName() != null) {
+            User user = userRepository.findByName(bookingHistoryDto.getChangedByName())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            bookingHistory.setChangedBy(user);
+        }
+
         return bookingHistory;
     }
 
@@ -66,8 +77,14 @@ public class BookingHistoryServiceImp implements BookingHistoryService {
             BookingHistory history = existingHistory.get();
             history.setTimestamp(bookingHistoryDto.getTimestamp());
             history.setStatus(bookingHistoryDto.getStatus());
-            history.setPerformedBy(bookingHistoryDto.getPerformedBy());
             history.setBooking(bookingHistoryDto.getBooking());
+
+            if (bookingHistoryDto.getChangedByName() != null) {
+                User user = userRepository.findByName(bookingHistoryDto.getChangedByName())
+                        .orElseThrow(() -> new RuntimeException("User not found"));
+                history.setChangedBy(user);
+            }
+
             BookingHistory updatedHistory = bookingHistoryRepository.save(history);
             return mapToDto(updatedHistory);
         }

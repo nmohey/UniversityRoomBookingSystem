@@ -30,6 +30,8 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    private boolean deleted = false;
+    
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
@@ -137,5 +139,13 @@ public class User {
 
     public void setHolidays(List<Holiday> holidays) {
         this.holidays = holidays;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

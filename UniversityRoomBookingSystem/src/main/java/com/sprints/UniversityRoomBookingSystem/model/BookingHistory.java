@@ -1,12 +1,9 @@
 package com.sprints.UniversityRoomBookingSystem.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "booking_history")
 public class BookingHistory {
 
     @Id
@@ -16,63 +13,44 @@ public class BookingHistory {
     private LocalDateTime timestamp;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private BookingStatus status;
 
-    @NotBlank(message = "Name of user who performed booking is required")
-    private String performedBy;
+    private String note;
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    public BookingHistory() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User changedBy;
 
-    public BookingHistory(LocalDateTime timestamp, BookingStatus status, String performedBy, Booking booking) {
-        this.timestamp = timestamp;
-        this.status = status;
-        this.performedBy = performedBy;
+    public BookingHistory() {}
+
+    public BookingHistory(Booking booking, BookingStatus oldStatus, BookingStatus newStatus, User changedBy) {
+        this.timestamp = LocalDateTime.now();
         this.booking = booking;
+        this.status = newStatus;
+        this.changedBy = changedBy;
+        this.note = (oldStatus == null ? "Initial status set to " : "Changed from " + oldStatus + " to ") + newStatus;
     }
 
-    public Long getId() {
-        return id;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+    public BookingStatus getStatus() { return status; }
+    public void setStatus(BookingStatus status) { this.status = status; }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
+    public String getNote() { return note; }
+    public void setNote(String note) { this.note = note; }
 
-    public BookingStatus getStatus() {
-        return status;
-    }
+    public Booking getBooking() { return booking; }
+    public void setBooking(Booking booking) { this.booking = booking; }
 
-    public void setStatus(BookingStatus status) {
-        this.status = status;
-    }
-
-    public String getPerformedBy() {
-        return performedBy;
-    }
-
-    public void setPerformedBy(String performedBy) {
-        this.performedBy = performedBy;
-    }
-
-    public Booking getBooking() {
-        return booking;
-    }
-
-    public void setBooking(Booking booking) {
-        this.booking = booking;
-    }
+    public User getChangedBy() { return changedBy; }
+    public void setChangedBy(User changedBy) { this.changedBy = changedBy; }
 }
